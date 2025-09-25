@@ -27,9 +27,9 @@ public class TenantAccess
         tenantRepository.save(tenant);
     }
 
-    public void deleteTenant(Tenant tenant)
+    public void deleteTenant(int tenantID)
     {
-        tenantRepository.delete(tenant);        
+        tenantRepository.deleteById(tenantID);      
     }
 
     public List<Tenant> listTenants()

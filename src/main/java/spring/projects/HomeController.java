@@ -57,9 +57,13 @@ public class HomeController
     }
 
     @RequestMapping("/remove-tenant")
-    public void deleteTenant(@ModelAttribute Tenant tenant, Model model)
+    public String deleteTenant(@ModelAttribute Tenant tenant, Model model)
     {
-        
+        int tenantID = tenant.getTenantID();
+
+        tenantAccess.deleteTenant(tenantID);
+
+        return "/home-action/";
     }
 }
 
