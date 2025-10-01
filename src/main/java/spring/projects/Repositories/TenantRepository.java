@@ -8,5 +8,5 @@ import spring.projects.Model.Tenant;
 
 public interface TenantRepository extends JpaRepository<Tenant, Integer>
 {
-    List<Tenant> listTenantsByHouseID(int houseID);
+    List<Tenant> findByHouseID(int houseID);
 }

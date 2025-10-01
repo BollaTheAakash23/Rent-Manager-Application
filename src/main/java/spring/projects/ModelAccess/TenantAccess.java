@@ -39,6 +39,6 @@ public class TenantAccess
 
     public List<Tenant> listTenants(int houseID)
     {
-        return tenantRepository.listTenantsByHouseID(houseID);
+        return tenantRepository.findByHouseID(houseID);
     }
 }

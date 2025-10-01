@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Tenant</title>
+</head>
+<body>
+    <form action="/home-action/remove-tenant/" th:object="${tenant}">
+        <select id="house" th:field="*{houseID}">
+            <option value="0">Old House</option>
+            <option value="1">White House</option>
+            <option value="2">New House</option>
+        </select>
+
+        <div id="tenant0Block" style="display: none;">
+            <select id="tenant0" th:field="*{tenantID}">
+                <option th:each="tenant : ${house0Tenants}"
+                        th:value="${tenant.getTenantID()}"
+                        th:text="${tenant.getTenantName()}">
+                </option>
+            </select>
+        </div>
+
+        <div id="tenant1Block" style="display: none;">
+            <select id="tenant1" th:field="*{tenantID}">
+                <option th:each="tenant : ${house1Tenants}"
+                        th:value="${tenant.getTenantID()}"
+                        th:text="${tenant.getTenantName()}">
+                </option>
+            </select>
+        </div>
+ 
+        <div id="tenant2Block" style="display: none;">
+            <select id="tenant2" th:field="*{tenantID}">
+                <option th:each="tenant : ${house2Tenants}"
+                        th:value="{tenant.getTenantID()}"
+                        th:text="tenant.getTenantName()">
+                </option>
+            </select>
+        </div>
+
+        <input type="submit" value="Remove Tenant">
+        
+    </form>
+
+    <script>
+        document.getElementById("house").addEventListener("change", 
+            function()
+            {
+                let value = this.value;
+
+                document.getElementById("tenant0Block").style.display = 
+                    value === "0" ? "block" : "none";
+                document.getElementById("tenant1Block").style.display = 
+                    value === "1" ? "block" : "none";
+                document.getElementById("tenant2Block").style.display = 
+                    value === "2" ? "block" : "none";                
+            }
+        );
+    </script>
+</body>
+</html>

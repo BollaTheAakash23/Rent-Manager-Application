@@ -2,15 +2,15 @@ package spring.projects;
 
 import java.util.List;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import spring.projects.Model.Tenant;
 import spring.projects.ModelAccess.TenantAccess;
 
-@RestController
+@Controller
 @RequestMapping("/home-action")
 public class HomeController
 {
@@ -60,11 +60,17 @@ public class HomeController
     public String deleteTenant(@ModelAttribute Tenant tenant, Model model)
     {
         int tenantID = tenant.getTenantID();
-
         tenantAccess.deleteTenant(tenantID);
 
         return "/home-action/";
     }
+
+    @RequestMapping("/login")
+    public String handleLogin()
+    {
+        return "login";
+    }
+    
 }
 
 

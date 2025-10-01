@@ -3,7 +3,8 @@ spring\projects\Repositories\PaymentRepository.class
 spring\projects\Model\Payment.class
 spring\projects\HomeController.class
 spring\projects\Repositories\TenantRepository.class
+spring\projects\Security\LoginManager.class
 spring\projects\Model\Tenant.class
-spring\projects\LoginManager.class
 spring\projects\ModelAccess\PaymentAccess.class
+spring\projects\Security\PasswordEncoderBean.class
 spring\projects\ModelAccess\TenantAccess.class

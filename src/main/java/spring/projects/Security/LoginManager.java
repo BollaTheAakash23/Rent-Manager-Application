@@ -17,9 +17,9 @@ public class LoginManager
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder)
     {
-        UserDetails landLord = User.builder().username("yoyoboy")
-                                             .password(passwordEncoder.encode("123456"))
-                                             .roles("ADMIN")
+        UserDetails landLord = User.builder().username("xxx")
+                                             .password(passwordEncoder.encode("xxx"))
+                                             .roles("USER")
                                              .build();
         
         return new InMemoryUserDetailsManager(landLord);
@@ -28,10 +28,11 @@ public class LoginManager
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {
-        http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+        http.authorizeHttpRequests(auth -> auth
+                                        .anyRequest().authenticated())
                                         .formLogin(form -> form
-                                                    .loginPage("index.html")
-                                                    .defaultSuccessUrl("/home-action/")
+                                                    .loginPage("/login")
+                                                    .defaultSuccessUrl("/home-action", true)
                                                     .permitAll())
                                         .logout(Customizer.withDefaults());
 

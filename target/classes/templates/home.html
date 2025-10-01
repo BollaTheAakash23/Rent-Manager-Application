@@ -6,12 +6,22 @@
     <title>Home</title>
 </head>
 <body>
-    <form action="addTenant.html">
-        <input type="submit" value="Add Tenant">
-    </form>
-    <br>
-    <form action="deleteTenant.html">
-        <input type="submit" value="Remove Tenant">
-    </form>
+    <div class="utilityButtons">
+        <div class="addTenant">
+            <form action="addTenant">
+                <input type="submit" value="Add Tenant">
+            </form>
+        </div>
+        <div>
+            <form action="deleteTenant">
+                <input type="submit" value="Remove Tenant">
+            </form>
+        </div>
+    </div>
+    <div class="listOfTenants">
+        <ul>
+            <li th:each="user : ${users}" th:text="${user}"></li>
+        </ul>
+    </div>>
 </body>
 </html>

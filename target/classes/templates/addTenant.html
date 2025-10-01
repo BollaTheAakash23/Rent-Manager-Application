@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Tenant</title>
+</head>
+<body>
+    <form action="/home-action/add-tenant/" th:object="${tenant}">
+
+        <label>Enter tenant name : </label>
+        <input type="text" placeholder="Tenant Name" th:field="*{tenantName}">
+
+        <br>
+        
+        <label>Select the house : </label>
+        <select name="house" th:field="*{houseID}">
+            <option value="0"> Old House </option>
+            <option value="1"> White House </option>
+            <option value="2"> New House </option>
+        </select>
+        
+        <br>
+        
+        <label>Enter flat no. : </label>
+        <input type="number" placeholder="Flat No." th:field="*{flatNo}">
+        
+        <br>
+        
+        <label>Enter rent amount : </label>
+        <input type="number" placeholder="Rent Amount" th:field="*{rentAmount}">
+        
+        <br>
+        
+        <label>Enter Phone No. : </label>
+        <input type="number" placeholder="Phone No." th:field="*{phoneNo}">
+        
+        <br>
+
+        <input type="submit" value="Add Tenant">
+    </form>
+</body>
+</html>
