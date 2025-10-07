@@ -6,12 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import spring.projects.Model.Tenant;
 import spring.projects.ModelAccess.TenantAccess;
 
 @Controller
-@RequestMapping("/home-action")
 public class HomeController
 {
     private final TenantAccess tenantAccess;
@@ -21,12 +21,10 @@ public class HomeController
         this.tenantAccess = tenantAccess;
     }
 
-    @RequestMapping("/")
+    @RequestMapping("/home-action")
     public String mapToIntermediaries(Model model)
     {
         viewTenants(model);
-        
-        model.addAttribute("tenant", new Tenant(0, "", 0, 0, 0.0f, 0));
 
         return "home";
     }
@@ -48,27 +46,41 @@ public class HomeController
     // ADD CODE TO FIRST SEND A TENANT OBJECT THROUGH MODEL AND THEN ADD THE ATTRIBUTES IN ADD TENANT HTML
     // FIGURE OUT THE SAME FOR DELETING TENANT
     
-    @RequestMapping("/add-tenant")
+    @RequestMapping("/home-action/add-tenant")
     public String addTenant(@ModelAttribute Tenant tenant, Model model)
     {
         tenantAccess.addTenant(tenant);
 
-        return "/home-action/";
+        return "forward:/home-action";
     }
 
-    @RequestMapping("/remove-tenant")
+    @RequestMapping("/home-action/remove-tenant")
     public String deleteTenant(@ModelAttribute Tenant tenant, Model model)
     {
         int tenantID = tenant.getTenantID();
         tenantAccess.deleteTenant(tenantID);
 
-        return "/home-action/";
+        return "/home-action";
     }
 
     @RequestMapping("/login")
     public String handleLogin()
     {
         return "login";
+    }
+
+    // @RequestMapping("/add-tenant")
+    // public String handleAddTenantRequest(Model model)
+    // {
+    //     model.addAttribute("tenant", new Tenant());
+    //     return "addTenant";
+    // }
+
+    @RequestMapping("/renderPage")
+    public String handlePageRenderRequests(@RequestParam String whatPage, Model model)
+    {
+        model.addAttribute("tenant", new Tenant());
+        return whatPage;
     }
     
 }

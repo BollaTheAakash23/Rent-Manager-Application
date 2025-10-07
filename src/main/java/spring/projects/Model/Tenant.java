@@ -12,13 +12,23 @@ public class Tenant
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int tenantID = 0;
+    private int tenantID;
 
     private String tenantName;
     private int houseID; // 0 - old house | 1 - white house | 2 - new house
     private int flatNo;
     private float rentAmount;
     private long phoneNo;
+
+    public Tenant()
+    {
+        tenantID = 0;
+        tenantName = "";
+        houseID = 0;
+        flatNo = 0;
+        rentAmount = 0.0f;
+        phoneNo = 0;
+    }
 
     public Tenant(int tenantID, String tenantName, int houseID, int flatNo, float rentAmount, long phoneNo)
     {

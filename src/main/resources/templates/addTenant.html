@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Add Tenant</title>
 </head>
 <body>
-    <form action="/home-action/add-tenant/" th:object="${tenant}">
+    <form action="/home-action/add-tenant" th:object="${tenant}">
+
+        <input type="hidden" name="tenantIDValue" th:field="*{tenantID}" value="0">
 
         <label>Enter tenant name : </label>
         <input type="text" placeholder="Tenant Name" th:field="*{tenantName}">

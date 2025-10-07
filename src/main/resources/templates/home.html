@@ -8,20 +8,46 @@
 <body>
     <div class="utilityButtons">
         <div class="addTenant">
-            <form action="addTenant">
+            <form action="/renderPage">
+                <input type="hidden" name="whatPage" value="addTenant">
                 <input type="submit" value="Add Tenant">
             </form>
         </div>
         <div>
-            <form action="deleteTenant">
+            <form action="/renderPage">
+                <input type="hidden" name="whatPage" value="deleteTenant">
                 <input type="submit" value="Remove Tenant">
             </form>
         </div>
     </div>
     <div class="listOfTenants">
-        <ul>
-            <li th:each="user : ${users}" th:text="${user}"></li>
-        </ul>
+        <tr th:each="tenant : ${house0Tenants}">
+            <td th:text="${tenant.tenantName}"></td>
+            <td th:text="${tenant.houseID}"></td>
+            <td th:text="${tenant.flatNo}"></td>
+            <td th:text="${tenant.rentAmount}"></td>
+            <td th:text="${tenant.phoneNo}"></td>
+        </tr>
+        
+        <br>
+
+        <tr th:each="tenant : ${house1Tenants}">
+            <td th:text="${tenant.tenantName}"></td>
+            <td th:text="${tenant.houseID}"></td>
+            <td th:text="${tenant.flatNo}"></td>
+            <td th:text="${tenant.rentAmount}"></td>
+            <td th:text="${tenant.phoneNo}"></td>
+        </tr>
+
+        <br>
+        
+        <tr th:each="tenant : ${house2Tenants}">
+            <td th:text="${tenant.tenantName}"></td>
+            <td th:text="${tenant.houseID}"></td>
+            <td th:text="${tenant.flatNo}"></td>
+            <td th:text="${tenant.rentAmount}"></td>
+            <td th:text="${tenant.phoneNo}"></td>
+        </tr>
     </div>>
 </body>
 </html>
