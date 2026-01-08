@@ -60,7 +60,9 @@ public class HomeController
         int tenantID = tenant.getTenantID();
         tenantAccess.deleteTenant(tenantID);
 
-        return "/home-action";
+        System.out.println(tenantID);
+
+        return "forward:/home-action";
     }
 
     @RequestMapping("/login")
@@ -80,6 +82,13 @@ public class HomeController
     public String handlePageRenderRequests(@RequestParam String whatPage, Model model)
     {
         model.addAttribute("tenant", new Tenant());
+
+        model.addAttribute("tenants", tenantAccess.listTenants());
+
+        model.addAttribute("house0Tenants", tenantAccess.listTenants(0));
+        model.addAttribute("house1Tenants", tenantAccess.listTenants(1));
+        model.addAttribute("house2Tenants", tenantAccess.listTenants(2));
+
         return whatPage;
     }
     

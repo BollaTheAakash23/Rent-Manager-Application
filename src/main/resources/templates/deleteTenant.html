@@ -6,57 +6,127 @@
 </head>
 <body>
     <form action="/home-action/remove-tenant" th:object="${tenant}">
-        <select id="house" th:field="*{houseID}">
+        <select id="houseSelect">
+            <option value="-1">-- Select House --</option>
             <option value="0">Old House</option>
             <option value="1">White House</option>
             <option value="2">New House</option>
         </select>
 
-        <div id="tenant0Block" style="display: none;">
-            <select id="tenant0" th:field="*{tenantID}">
+        <select id="tenantSelect" th:field="*{tenantID}">
+            <option value="-1">-- Select Tenant --</option>
+        </select>
+
+        <!-- <select id="tenantSelect" th:field="*{tenantID}">
+            <option value="-1">--Select Tenant--</option>
+            <div id="allTenantss">
+                <option th:each="tenant : ${tenants}"
+                        th:value="${tenant.getTenantID()}"
+                        th:text="${tenant.getTenantName()}" id="allTenants" style="display: block;">
+                </option>
+            </div>
+            <div id="tenant0s" style="display: none;">
                 <option th:each="tenant : ${house0Tenants}"
                         th:value="${tenant.getTenantID()}"
-                        th:text="${tenant.getTenantName()}">
+                        th:text="${tenant.getTenantName()}" id="tenant0" style="display: none;">
                 </option>
-            </select>
-        </div>
-
-        <div id="tenant1Block" style="display: none;">
-            <select id="tenant1" th:field="*{tenantID}">
+            </div>
+            <div id="tenant1s" style="display: none;">
                 <option th:each="tenant : ${house1Tenants}"
                         th:value="${tenant.getTenantID()}"
-                        th:text="${tenant.getTenantName()}">
+                        th:text="${tenant.getTenantName()}" id="tenant1" style="display: none;">
                 </option>
-            </select>
-        </div>
- 
-        <div id="tenant2Block" style="display: none;">
-            <select id="tenant2" th:field="*{tenantID}">
+            </div>
+            <div id="tenant2s" style="display: none;">
                 <option th:each="tenant : ${house2Tenants}"
                         th:value="${tenant.getTenantID()}"
-                        th:text="${tenant.getTenantName()}">
+                        th:text="${tenant.getTenantName()}" id="tenant2" style="display: none;">
                 </option>
-            </select>
-        </div>
+            </div>
+        </select> -->
 
+        
         <input type="submit" value="Remove Tenant">
         
     </form>
 
+    <script th:inline="javascript">
+        const tenantsByHouseID = {
+            0: /*[[${house0Tenants}]]*/,
+            1: /*[[${house1Tenants}]]*/,
+            2: /*[[${house2Tenants}]]*/
+        };
+    </script>
+    <!-- <script th:inline="javascript">
+        const testValue = /*[[${house0Tenants}]]*/ "DEFAULT";
+        console.log("TEST VALUE:", testValue);
+    </script> -->
     <script>
-        document.getElementById("house").addEventListener("change", 
-            function()
-            {
-                let value = this.value;
-
-                document.getElementById("tenant0Block").style.display = 
-                    value === "0" ? "block" : "none";
-                document.getElementById("tenant1Block").style.display = 
-                    value === "1" ? "block" : "none";
-                document.getElementById("tenant2Block").style.display = 
-                    value === "2" ? "block" : "none";                
+        
+        document.addEventListener("DOMContentLoaded", 
+        function ()
+        {
+                const houseSelectContext = document.getElementById("houseSelect");
+                const tenantSelectContext = document.getElementById("tenantSelect");
+                houseSelectContext.addEventListener("change",
+                    function()
+                    {
+                        const selectedHouseID = this.value;
+                        const tenantList = tenantsByHouseID[selectedHouseID];
+        
+                        tenantSelectContext.innerHTML = '<option value="-1">-- Select Tenant --</option>';
+        
+                        if (selectedHouseID === "-1") return;
+        
+                        tenantList.forEach(tenant => {
+                            const option = document.createElement("option");
+                            option.value = tenant.tenantID;
+                            option.textContent = tenant.tenantName;
+                            tenantSelectContext.appendChild(option);
+                        });
+                    }
+                );
             }
         );
     </script>
+    <!-- <script>
+        document.getElementById("houseSelect").addEventListener("change", 
+            function()
+            {
+                let value = this.value;
+                
+                // To hide all blocks first
+                // document.getElementById("tenant0s").style.display = "none";
+                // document.getElementById("tenant1s").style.display = "none";
+                // document.getElementById("tenant2s").style.display = "none";
+
+                document.getElementById("allTenants").style.display = "none";
+            
+                if(value === 0)
+                {
+                    document.getElementById("tenant0s").style.display = "block";
+                    document.getElementById("tenant1s").style.display = "none";
+                    document.getElementById("tenant2s").style.display = "none";
+                }
+                else if(value === 1)
+                {
+                    document.getElementById("tenant0s").style.display = "none";
+                    document.getElementById("tenant1s").style.display = "block";
+                    document.getElementById("tenant2s").style.display = "none";
+                }
+                else if(value === 2)
+                {
+                    document.getElementById("tenant0s").style.display = "none";
+                    document.getElementById("tenant1s").style.display = "none";
+                    document.getElementById("tenant2s").style.display = "block";
+                }
+            }
+        );
+
+        function disableOthers(id)
+        {
+            let houseSelection
+        }
+    </script> -->
 </body>
 </html>

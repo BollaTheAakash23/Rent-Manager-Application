@@ -17,8 +17,8 @@ public class LoginManager
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder)
     {
-        UserDetails landLord = User.builder().username("XXXX")
-                                             .password(passwordEncoder.encode("XXXX"))
+        UserDetails landLord = User.builder().username("yoyoboy")
+                                             .password(passwordEncoder.encode("123456"))
                                              .roles("USER")
                                              .build();
         
