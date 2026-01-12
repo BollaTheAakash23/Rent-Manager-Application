@@ -2,7 +2,6 @@ package spring.projects.Security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +33,13 @@ public class LoginManager
                                                     .loginPage("/login")
                                                     .defaultSuccessUrl("/home-action", true)
                                                     .permitAll())
-                                        .logout(Customizer.withDefaults());
+                                        .logout(logout -> logout
+                                            .logoutUrl("/logout")
+                                            .logoutSuccessUrl("/login")
+                                            .invalidateHttpSession(true)
+                                            .clearAuthentication(true)
+                                            .deleteCookies("JSESSIONID")
+                                        );
 
         return http.build();
     }
