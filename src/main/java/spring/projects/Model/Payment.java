@@ -1,5 +1,8 @@
 package spring.projects.Model;
 
+
+import java.time.YearMonth;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,16 +16,17 @@ public class Payment
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int paymentID;
-
-    private int monthID;
+    
+    private YearMonth paymentDate;
     private int tenantID;
     private int paymentStatus; // 0 - Not Paid | 1 - Partially Paid | 2 - Paid in Full
+    private float amountPaid;
     private float amountRemaining;
 
-    public Payment(int paymentID, int monthID, int tenantID, int paymentStatus, float amountRemaining)
+    public Payment(int paymentID, YearMonth paymentDate, int tenantID, int paymentStatus, float amountPaid, float amountRemaining)
     {
         this.paymentID = paymentID;
-        this.monthID = monthID;
+        this.paymentDate = paymentDate;
         this.tenantID = tenantID;
         this.paymentStatus = paymentStatus;
         this.amountRemaining = amountRemaining;
@@ -38,14 +42,14 @@ public class Payment
         this.paymentID = paymentID;
     }
 
-    // Month ID
-    public int getMonthID()
+    // Payment Date
+    public YearMonth getPaymentDate()
     {
-        return monthID;
+        return paymentDate;
     }
-    public void setMonthID(int monthID)
+    public void setPaymentDate(YearMonth paymentDate)
     {
-        this.monthID = monthID;
+        this.paymentDate = paymentDate;
     }
 
     // Tenant ID
@@ -66,6 +70,16 @@ public class Payment
     public void setPaymentStatus(int paymentStatus)
     {
         this.paymentStatus = paymentStatus;
+    }
+
+    // Amount paid
+    public float getAmountPaid()
+    {
+        return amountPaid;
+    }
+    public void setAmountPaid(float amountPaid)
+    {
+        this.amountPaid = amountPaid;
     }
 
     // Amount Remaining

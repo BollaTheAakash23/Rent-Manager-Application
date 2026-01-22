@@ -21,7 +21,17 @@
         </div>
     </div>
     <div class="listOfTenants">
-        <tr th:each="tenant : ${house0Tenants}">
+
+        <tr th:each="tenant : ${paymentStatuses}">
+            <td th:text="${tenant.tenantName}"></td>
+            <td th:text="${tenant.flatNo}"></td>
+            <td th:text="${tenant.rentAmount}"></td>
+            <td th:text="${tenant.houseID}"></td>
+            <td th:text="${tenant.phoneNo}"></td>
+            <td th:text="${tenant.paymentStatus}"></td>
+        </tr>
+
+        <!-- <tr th:each="tenant : ${house0Tenants}">
             <td th:text="${tenant.tenantName}"></td>
             <td th:text="${tenant.houseID}"></td>
             <td th:text="${tenant.flatNo}"></td>
@@ -47,7 +57,7 @@
             <td th:text="${tenant.flatNo}"></td>
             <td th:text="${tenant.rentAmount}"></td>
             <td th:text="${tenant.phoneNo}"></td>
-        </tr>
+        </tr> -->
     </div>>
     <div id="logout">
         <form th:action="@{/logout}" method="post">

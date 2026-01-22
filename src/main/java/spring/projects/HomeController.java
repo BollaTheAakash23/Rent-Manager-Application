@@ -1,5 +1,6 @@
 package spring.projects;
 
+import java.time.YearMonth;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -8,17 +9,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import spring.projects.DTOs.PaymentStatusDTO;
 import spring.projects.Model.Tenant;
+import spring.projects.ModelAccess.PaymentAccess;
 import spring.projects.ModelAccess.TenantAccess;
 
 @Controller
 public class HomeController
 {
     private final TenantAccess tenantAccess;
+    private final PaymentAccess paymentAccess;
 
-    public HomeController(TenantAccess tenantAccess)
+    public HomeController(TenantAccess tenantAccess, PaymentAccess paymentAccess)
     {
         this.tenantAccess = tenantAccess;
+        this.paymentAccess = paymentAccess;
     }
 
     @RequestMapping("/home-action")
@@ -41,6 +46,12 @@ public class HomeController
         model.addAttribute("house0Tenants", tenantsOfHouse0);
         model.addAttribute("house1Tenants", tenantsOfHouse1);
         model.addAttribute("house2Tenants", tenantsOfHouse2);
+
+        YearMonth yearMonth = YearMonth.now();
+
+        List<PaymentStatusDTO> paymentStatuses = paymentAccess.getPaymentStatuses(yearMonth);
+
+        model.addAttribute("paymentStatuses", paymentStatuses);
     }
 
     // ADD CODE TO FIRST SEND A TENANT OBJECT THROUGH MODEL AND THEN ADD THE ATTRIBUTES IN ADD TENANT HTML
