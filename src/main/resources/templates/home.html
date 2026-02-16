@@ -13,7 +13,7 @@
                 <input type="submit" value="Add Tenant">
             </form>
         </div>
-        <div>
+        <div class="deleteTenant">
             <form action="/renderPage">
                 <input type="hidden" name="whatPage" value="deleteTenant">
                 <input type="submit" value="Remove Tenant">
@@ -29,6 +29,13 @@
             <td th:text="${tenant.houseID}"></td>
             <td th:text="${tenant.phoneNo}"></td>
             <td th:text="${tenant.paymentStatus}"></td>
+            <td> 
+                <form action="/renderPage" th:object="${tenant}">
+                    <input type="hidden" name="whatPage" value="updateTenant">
+                    <input type="submit" value="Edit">
+                </form> 
+            </td>
+            <br>
         </tr>
 
         <!-- <tr th:each="tenant : ${house0Tenants}">

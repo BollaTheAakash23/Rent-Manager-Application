@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Tenant</title>
+</head>
+<body>
+    <p th:text="${tenantToBeUpdated.getTenantName()}"></p>
+
+    <form action="/home-action/update-tenant" th:object="${tenantToBeUpdated}">
+        
+        <label> TenantName : </label>
+        <input type="text" th:field="*{tenantName}" placeholder="${tenantName}">
+        <br>
+        
+        <label> House : </label>
+        <select th:field="*{houseID}">
+            <option value="0"> Old House</option>
+            <option value="1"> White House </option>
+            <option value="2"> New House </option>
+        </select>
+
+        <input type="submit" value="Update Tenant">
+
+    </form>
+</body>
+</html>

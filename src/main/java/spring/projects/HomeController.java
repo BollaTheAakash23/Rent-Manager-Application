@@ -76,6 +76,14 @@ public class HomeController
         return "forward:/home-action";
     }
 
+    @RequestMapping("/home-action/update-tenant")
+    public String updateTenant(@ModelAttribute Tenant tenant, Model model)
+    {
+        tenantAccess.updateTenant(tenant);
+
+        return "forward:/home-action";
+    }
+
     @RequestMapping("/login")
     public String handleLogin()
     {
@@ -90,7 +98,7 @@ public class HomeController
     // }
 
     @RequestMapping("/renderPage")
-    public String handlePageRenderRequests(@RequestParam String whatPage, Model model)
+    public String handlePageRenderRequests(@ModelAttribute Tenant tenant, @RequestParam String whatPage, Model model)
     {
         model.addAttribute("tenant", new Tenant());
 
@@ -99,6 +107,8 @@ public class HomeController
         model.addAttribute("house0Tenants", tenantAccess.listTenants(0));
         model.addAttribute("house1Tenants", tenantAccess.listTenants(1));
         model.addAttribute("house2Tenants", tenantAccess.listTenants(2));
+
+        model.addAttribute("tenantToBeUpdated", tenant);
 
         return whatPage;
     }
