@@ -19,6 +19,12 @@
                 <input type="submit" value="Remove Tenant">
             </form>
         </div>
+        <div class="addPaymentEntry">
+            <form action="/renderPage">
+                <input type="hidden" name="whatPage" value="addPaymentEntry">
+                <input type="submit" value="Add Payment">
+            </form>
+        </div>
     </div>
     <div class="listOfTenants">
 
@@ -29,12 +35,12 @@
             <td th:text="${tenant.houseID}"></td>
             <td th:text="${tenant.phoneNo}"></td>
             <td th:text="${tenant.paymentStatus}"></td>
-            <td> 
+            <!-- <td>
                 <form action="/renderPage" th:object="${tenant}">
                     <input type="hidden" name="whatPage" value="updateTenant">
                     <input type="submit" value="Edit">
-                </form> 
-            </td>
+                </form>
+            </td> -->
             <br>
         </tr>
 

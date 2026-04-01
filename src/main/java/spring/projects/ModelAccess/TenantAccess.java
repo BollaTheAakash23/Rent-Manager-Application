@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import spring.projects.DTOs.TenantDTO;
 import spring.projects.Model.Tenant;
 import spring.projects.Repositories.TenantRepository;
 
@@ -40,5 +41,15 @@ public class TenantAccess
     public List<Tenant> listTenants(int houseID)
     {
         return tenantRepository.findByHouseID(houseID);
+    }
+
+    public Tenant findTenantByTenantID(int tenantID)
+    {
+        return tenantRepository.findByTenantID(tenantID);
+    }
+
+    public TenantDTO findTenantByHouseAndFlat(int houseID, int flatNo)
+    {
+        return tenantRepository.findByHouseAndFlat(houseID, flatNo);
     }
 }

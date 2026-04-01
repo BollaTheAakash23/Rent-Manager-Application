@@ -1,26 +1,10 @@
-package spring.projects.Model;
-
-
+package spring.projects.DTOs;
 
 import java.time.LocalTime;
 import java.time.YearMonth;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "payments")
-public class Payment
+public class PaymentDTO
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer paymentID;
     
     private YearMonth paymentDate;
@@ -29,12 +13,7 @@ public class Payment
     private Float amountRemaining;
     private LocalTime paymentTime;
 
-    @ManyToOne
-    @JoinColumn(name = "tenantID")
-    @JsonBackReference
-    private Tenant tenant;
-
-    public Payment()
+    public PaymentDTO()
     {
         paymentID = 0;
         paymentDate = YearMonth.now();
@@ -44,7 +23,7 @@ public class Payment
         paymentTime = LocalTime.now();
     }
 
-    public Payment(int paymentID, YearMonth paymentDate, int paymentStatus, float amountPaid, float amountRemaining, LocalTime paymentTime)
+    public PaymentDTO(int paymentID, YearMonth paymentDate, int paymentStatus, float amountPaid, float amountRemaining, LocalTime paymentTime)
     {
         this.paymentID = paymentID;
         this.paymentDate = paymentDate;
@@ -113,15 +92,4 @@ public class Payment
     {
         this.paymentTime = paymentTime;
     }
-
-    // Associated Tenant
-    public Tenant getTenant()
-    {
-        return tenant;
-    }
-    public void setTenant(Tenant tenant)
-    {
-        this.tenant = tenant;
-    }
-    
 }

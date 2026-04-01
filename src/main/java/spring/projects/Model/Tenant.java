@@ -1,9 +1,15 @@
 package spring.projects.Model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -12,13 +18,17 @@ public class Tenant
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int tenantID;
+    private Integer tenantID;
 
     private String tenantName;
-    private int houseID; // 0 - old house | 1 - white house | 2 - new house
-    private int flatNo;
-    private float rentAmount;
-    private long phoneNo;
+    private Integer houseID; // 0 - old house | 1 - white house | 2 - new house
+    private Integer flatNo;
+    private Float rentAmount;
+    private Long phoneNo;
+
+    @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Payment> payments;
 
     public Tenant()
     {
@@ -27,7 +37,7 @@ public class Tenant
         houseID = 0;
         flatNo = 0;
         rentAmount = 0.0f;
-        phoneNo = 0;
+        phoneNo = Long.MIN_VALUE;
     }
 
     public Tenant(int tenantID, String tenantName, int houseID, int flatNo, float rentAmount, long phoneNo)
@@ -99,4 +109,14 @@ public class Tenant
     {
         this.phoneNo = phoneNo;
     }
+
+    // Payments List
+    public List<Payment> getPayments()
+    {
+        return payments;
+    }
+    public void setPayments(List<Payment> payments)
+    {
+        this.payments = payments;
+    } 
 }

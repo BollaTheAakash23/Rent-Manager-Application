@@ -1,14 +1,14 @@
 package spring.projects.ModelAccess;
 
-import java.time.Month;
-import java.time.Year;
 import java.time.YearMonth;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import spring.projects.DTOs.PaymentDTO;
 import spring.projects.DTOs.PaymentStatusDTO;
 import spring.projects.Model.Payment;
+import spring.projects.Model.Tenant;
 import spring.projects.Repositories.PaymentRepository;
 
 @Service
@@ -45,5 +45,10 @@ public class PaymentAccess
     public List<PaymentStatusDTO> getPaymentStatuses(YearMonth yearMonth)
     {
         return paymentRepository.listPaymentStatuses(yearMonth);
+    }
+
+    public PaymentDTO getPaymentByTenant(Tenant tenant, YearMonth yearMonth)
+    {
+        return paymentRepository.getLatestPaymentByTenantAndDate(tenant, yearMonth);
     }
 }

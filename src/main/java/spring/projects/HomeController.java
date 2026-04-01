@@ -1,5 +1,6 @@
 package spring.projects;
 
+import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.List;
 
@@ -9,7 +10,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import spring.projects.DTOs.PaymentDTO;
 import spring.projects.DTOs.PaymentStatusDTO;
+import spring.projects.DTOs.TenantDTO;
+import spring.projects.Model.Payment;
 import spring.projects.Model.Tenant;
 import spring.projects.ModelAccess.PaymentAccess;
 import spring.projects.ModelAccess.TenantAccess;
@@ -50,6 +54,7 @@ public class HomeController
         YearMonth yearMonth = YearMonth.now();
 
         List<PaymentStatusDTO> paymentStatuses = paymentAccess.getPaymentStatuses(yearMonth);
+        //List<PaymentStatusDTO> paymentStatuses = new ArrayList<>();
 
         model.addAttribute("paymentStatuses", paymentStatuses);
     }
@@ -61,6 +66,15 @@ public class HomeController
     public String addTenant(@ModelAttribute Tenant tenant, Model model)
     {
         tenantAccess.addTenant(tenant);
+
+        TenantDTO newTenant = tenantAccess.findTenantByHouseAndFlat(tenant.getHouseID(), tenant.getFlatNo());
+
+        Payment payment = new Payment();
+        
+        payment.setAmountRemaining(tenant.getRentAmount());
+        payment.setTenant(tenantAccess.findTenantByTenantID(newTenant.getTenantID()));
+
+        paymentAccess.addOrUpdatePayment(payment);
 
         return "forward:/home-action";
     }
@@ -80,6 +94,33 @@ public class HomeController
     public String updateTenant(@ModelAttribute Tenant tenant, Model model)
     {
         tenantAccess.updateTenant(tenant);
+
+        return "forward:/home-action";
+    }
+
+    @RequestMapping("/home-action/add-payment-entry")
+    public String addPaymentEntry(@ModelAttribute Payment payment, @RequestParam int tenantID, Model model)
+    {
+        Tenant tenant = tenantAccess.findTenantByTenantID(tenantID);
+
+        payment.setTenant(tenant);
+
+        PaymentDTO paymentToBeUpdated = paymentAccess.getPaymentByTenant(tenant, YearMonth.now());
+
+        float tenantRentAmountRemaining = paymentToBeUpdated.getAmountRemaining();
+        float amountRemainingAfterCurrTrans = tenantRentAmountRemaining - payment.getAmountPaid();
+        payment.setAmountRemaining(amountRemainingAfterCurrTrans);
+
+        if(amountRemainingAfterCurrTrans == 0.0f)
+            payment.setPaymentStatus(2);
+        else if(amountRemainingAfterCurrTrans < tenant.getRentAmount())
+            payment.setPaymentStatus(1);
+        else
+            payment.setPaymentStatus(0);
+
+        payment.setPaymentTime(LocalTime.now());
+
+        paymentAccess.addOrUpdatePayment(payment);
 
         return "forward:/home-action";
     }
@@ -109,6 +150,8 @@ public class HomeController
         model.addAttribute("house2Tenants", tenantAccess.listTenants(2));
 
         model.addAttribute("tenantToBeUpdated", tenant);
+
+        model.addAttribute("payment", new Payment());
 
         return whatPage;
     }
