@@ -24,6 +24,7 @@ public class Tenant
     private Integer houseID; // 0 - old house | 1 - white house | 2 - new house
     private Integer flatNo;
     private Float rentAmount;
+    private Float overallOutstandingAmount;
     private Long phoneNo;
 
     @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL)
@@ -37,16 +38,18 @@ public class Tenant
         houseID = 0;
         flatNo = 0;
         rentAmount = 0.0f;
+        overallOutstandingAmount = 0.0f;
         phoneNo = Long.MIN_VALUE;
     }
 
-    public Tenant(int tenantID, String tenantName, int houseID, int flatNo, float rentAmount, long phoneNo)
+    public Tenant(int tenantID, String tenantName, int houseID, int flatNo, float rentAmount, float overallOutstandingAmount,long phoneNo)
     {
         this.tenantID = tenantID;
         this.tenantName = tenantName;
         this.houseID = houseID;
         this.flatNo = flatNo;
         this.rentAmount = rentAmount;
+        this.overallOutstandingAmount = overallOutstandingAmount;
         this.phoneNo = phoneNo;
     }
 
@@ -98,6 +101,16 @@ public class Tenant
     public void setRentAmount(float rentAmount)
     {
         this.rentAmount = rentAmount;
+    }
+
+    // Overall Outstanding Amount
+    public float getOverallOutstandingAmount()
+    {
+        return overallOutstandingAmount;
+    }
+    public void setOverallOutstandingAmount(float overallOutstandingAmount)
+    {
+        this.overallOutstandingAmount = overallOutstandingAmount;
     }
 
     // Phone No.

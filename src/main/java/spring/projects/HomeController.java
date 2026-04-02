@@ -65,6 +65,8 @@ public class HomeController
     @RequestMapping("/home-action/add-tenant")
     public String addTenant(@ModelAttribute Tenant tenant, Model model)
     {
+        tenant.setOverallOutstandingAmount(tenant.getRentAmount());
+
         tenantAccess.addTenant(tenant);
 
         TenantDTO newTenant = tenantAccess.findTenantByHouseAndFlat(tenant.getHouseID(), tenant.getFlatNo());
@@ -102,6 +104,8 @@ public class HomeController
     public String addPaymentEntry(@ModelAttribute Payment payment, @RequestParam int tenantID, Model model)
     {
         Tenant tenant = tenantAccess.findTenantByTenantID(tenantID);
+
+        tenant.setOverallOutstandingAmount(tenant.getOverallOutstandingAmount() - payment.getAmountPaid());
 
         payment.setTenant(tenant);
 

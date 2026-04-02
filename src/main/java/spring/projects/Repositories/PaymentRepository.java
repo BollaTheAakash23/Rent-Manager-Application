@@ -22,6 +22,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer>
                 t.tenantName, 
                 t.flatNo, 
                 t.rentAmount,
+                p.amountRemaining,
                 t.houseID,
                 t.phoneNo,
                 p.paymentStatus) from

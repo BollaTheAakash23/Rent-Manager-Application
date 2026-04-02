@@ -6,17 +6,19 @@ public class PaymentStatusDTO
     private String tenantName;
     private int flatNo;
     private float rentAmount;
+    private float amountRemaining;
     private int houseID;
     private long phoneNo;
 
     private int paymentStatus;
 
-    public PaymentStatusDTO(int tenantID, String tenantName, int flatNo, float rentAmount, int houseID, long phoneNo, int paymentStatus)
+    public PaymentStatusDTO(int tenantID, String tenantName, int flatNo, float rentAmount, float amountRemaining, int houseID, long phoneNo, int paymentStatus)
     {
         this.tenantID = tenantID;
         this.tenantName = tenantName;
         this.flatNo = flatNo;
         this.rentAmount = rentAmount;
+        this.amountRemaining = amountRemaining;
         this.houseID = houseID;
         this.phoneNo = phoneNo;
         this.paymentStatus = paymentStatus;
@@ -60,6 +62,16 @@ public class PaymentStatusDTO
     public void setRentAmount(float rentAmount)
     {
         this.rentAmount = rentAmount;
+    }
+
+    // Amount Remaining
+    public float getAmountRemaining()
+    {
+        return amountRemaining;
+    }
+    public void setAmountRemaining(float amountRemaining)
+    {
+        this.amountRemaining = amountRemaining;
     }
 
     // houseID
