@@ -95,6 +95,13 @@ public class HomeController
     @RequestMapping("/home-action/update-tenant")
     public String updateTenant(@ModelAttribute Tenant tenant, Model model)
     {
+        Tenant tenantToBeUpdated = tenantAccess.findTenantByTenantID(tenant.getTenantID());
+
+        float rentAmountIncreased = (tenantToBeUpdated.getRentAmount() > tenant.getRentAmount()) ? (tenantToBeUpdated.getRentAmount() - tenant.getRentAmount())
+                                                                                                 : (tenant.getRentAmount() - tenantToBeUpdated.getRentAmount());
+
+        tenant.setOverallOutstandingAmount(tenant.getOverallOutstandingAmount() + rentAmountIncreased);
+
         tenantAccess.updateTenant(tenant);
 
         return "forward:/home-action";
@@ -143,7 +150,7 @@ public class HomeController
     // }
 
     @RequestMapping("/renderPage")
-    public String handlePageRenderRequests(@ModelAttribute Tenant tenant, @RequestParam String whatPage, Model model)
+    public String handlePageRenderRequests(@RequestParam String whatPage, Model model)
     {
         model.addAttribute("tenant", new Tenant());
 
@@ -153,9 +160,17 @@ public class HomeController
         model.addAttribute("house1Tenants", tenantAccess.listTenants(1));
         model.addAttribute("house2Tenants", tenantAccess.listTenants(2));
 
-        model.addAttribute("tenantToBeUpdated", tenant);
-
         model.addAttribute("payment", new Payment());
+
+        return whatPage;
+    }
+
+    @RequestMapping("/renderPageTenantID")
+    public String handlePageRenderRequests(@RequestParam String tenantID, @RequestParam String whatPage, Model model)
+    {
+        Tenant tenantToBeUpdated = tenantAccess.findTenantByTenantID(Integer.parseInt(tenantID));
+
+        model.addAttribute("tenant", tenantToBeUpdated);
 
         return whatPage;
     }

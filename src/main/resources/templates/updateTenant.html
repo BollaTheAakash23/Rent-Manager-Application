@@ -5,12 +5,14 @@
     <title>Update Tenant</title>
 </head>
 <body>
-    <p th:text="${tenantToBeUpdated.getTenantName()}"></p>
+    <p th:text="${tenant.tenantID}"></p>
 
-    <form action="/home-action/update-tenant" th:object="${tenantToBeUpdated}">
+    <form action="/home-action/update-tenant" th:object="${tenant}">
+
+        <input type="hidden" th:field="*{tenantID}" th:value="${tenant.tenantID}"> 
         
         <label> TenantName : </label>
-        <input type="text" th:field="*{tenantName}" placeholder="${tenantName}">
+        <input type="text" th:field="*{tenantName}" th:value="${tenant.tenantName}" th:placeholder="${tenant.tenantName}">
         <br>
         
         <label> House : </label>
@@ -19,6 +21,21 @@
             <option value="1"> White House </option>
             <option value="2"> New House </option>
         </select>
+
+        <label> Flat No. :</label>
+        <input type="number" th:field="*{flatNo}" th:value="${tenant.flatNo}" th:placeholder="${tenant.flatNo}">
+        <br>
+
+        <label> Rent Amount : </label>
+        <input type="number" th:field="*{rentAmount}" th:value="${tenant.rentAmount}" th:placeholder="${tenant.rentAmount}">
+        <br>
+
+        <input type="hidden" th:field="*{overallOutstandingAmount}" th:value="${tenant.overallOutstandingAmount}">
+        <br>
+
+        <label> Phone No. : </label>
+        <input type="number" th:field="*{phoneNo}" th:value="${tenant.phoneNo}" th:placeholder="${tenant.phoneNo}">
+        <br>
 
         <input type="submit" value="Update Tenant">
 

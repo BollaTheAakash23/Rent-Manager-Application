@@ -28,20 +28,22 @@
     </div>
     <div class="listOfTenants">
 
-        <tr th:each="tenant : ${paymentStatuses}">
-            <td th:text="${tenant.tenantName}"></td>
-            <td th:text="${tenant.flatNo}"></td>
-            <td th:text="${tenant.rentAmount}"></td>
-            <td th:text="${tenant.amountRemaining}"></td>
-            <td th:text="${tenant.houseID}"></td>
-            <td th:text="${tenant.phoneNo}"></td>
-            <td th:text="${tenant.paymentStatus}"></td>
-            <!-- <td>
-                <form action="/renderPage" th:object="${tenant}">
+        <tr th:each="ps : ${paymentStatuses}">
+            <td th:text="${ps.tenantName}"></td>
+            <td th:text="${ps.flatNo}"></td>
+            <td th:text="${ps.rentAmount}"></td>
+            <td th:text="${ps.amountRemaining}"></td>
+            <td th:text="${ps.houseID}"></td>
+            <td th:text="${ps.phoneNo}"></td>
+            <td th:text="${ps.paymentStatus}"></td>
+            <td>
+                <form action="/renderPageTenantID">
+                    <input type="hidden" name="tenantID" th:value="${ps.tenantID}">
+
                     <input type="hidden" name="whatPage" value="updateTenant">
                     <input type="submit" value="Edit">
                 </form>
-            </td> -->
+            </td>
             <br>
         </tr>
 
