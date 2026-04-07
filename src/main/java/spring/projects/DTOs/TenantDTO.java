@@ -8,8 +8,9 @@ public class TenantDTO
     private int flatNo;
     private float rentAmount;
     private long phoneNo;
+    private float overallOutstandingAmount;
 
-    public TenantDTO(int tenantID, String tenantName, int houseID, int flatNo, float rentAmount, long phoneNo)
+    public TenantDTO(int tenantID, String tenantName, int houseID, int flatNo, float rentAmount, long phoneNo, float overallOutstandingAmount)
     {
         this.tenantID = tenantID;
         this.tenantName = tenantName;
@@ -17,6 +18,7 @@ public class TenantDTO
         this.flatNo = flatNo;
         this.rentAmount = rentAmount;
         this.phoneNo = phoneNo;
+        this.overallOutstandingAmount = overallOutstandingAmount;
     }
 
     // Tenant ID
@@ -77,6 +79,16 @@ public class TenantDTO
     public void setPhoneNo(long phoneNo)
     {
         this.phoneNo = phoneNo;
+    }
+
+    // Overall Outstanding Amount
+    public float getOverallOutstandingAmount()
+    {
+        return overallOutstandingAmount;
+    }
+    public void setOverallOutstandingAmount(float overallOutstandingAmount)
+    {
+        this.overallOutstandingAmount = overallOutstandingAmount;
     }
 
 }

@@ -54,9 +54,11 @@ public class HomeController
         YearMonth yearMonth = YearMonth.now();
 
         List<PaymentStatusDTO> paymentStatuses = paymentAccess.getPaymentStatuses(yearMonth);
+        List<TenantDTO> overallDefaulters = tenantAccess.getOverallDefaulters();
         //List<PaymentStatusDTO> paymentStatuses = new ArrayList<>();
 
         model.addAttribute("paymentStatuses", paymentStatuses);
+        model.addAttribute("overallDefaulters", overallDefaulters);
     }
 
     // ADD CODE TO FIRST SEND A TENANT OBJECT THROUGH MODEL AND THEN ADD THE ATTRIBUTES IN ADD TENANT HTML

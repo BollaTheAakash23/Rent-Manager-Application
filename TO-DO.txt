@@ -1,7 +1,2 @@
 - Add display defaulters of current month.
-- Add display of defaulters of all time.
 - Fix automatic adding of tenant payments when new month starts.
-- Add Updation feature.
-- Fix bug - when home page is reloaded, a new record is added into payments table causing issues.
-- Add a new column for each tenant which tracks overall outstanding amount remaining to be paid. Useful
-    in case of defaulters.

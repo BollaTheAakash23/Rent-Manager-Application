@@ -20,10 +20,26 @@ public interface TenantRepository extends JpaRepository<Tenant, Integer>
             t.houseID,
             t.flatNo,
             t.rentAmount,
-            t.phoneNo
+            t.phoneNo,
+            t.overallOutstandingAmount
         )
         from Tenant t
           where houseID = :houseID and flatNo = :flatNo
     """)
     TenantDTO findByHouseAndFlat(int houseID, int flatNo);
+
+    @Query("""
+        select new spring.projects.DTOs.TenantDTO(
+                t.tenantID,
+                t.tenantName,
+                t.houseID,
+                t.flatNo,
+                t.rentAmount,
+                t.phoneNo,
+                t.overallOutstandingAmount
+            )
+            from Tenant t
+            where t.overallOutstandingAmount <> 0
+    """)
+    List<TenantDTO> listOverallDefaulters();
 }

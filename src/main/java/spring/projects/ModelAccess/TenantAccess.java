@@ -52,4 +52,9 @@ public class TenantAccess
     {
         return tenantRepository.findByHouseAndFlat(houseID, flatNo);
     }
+
+    public List<TenantDTO> getOverallDefaulters()
+    {
+        return tenantRepository.listOverallDefaulters();
+    }
 }

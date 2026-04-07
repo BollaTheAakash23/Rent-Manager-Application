@@ -25,8 +25,11 @@
                 <input type="submit" value="Add Payment">
             </form>
         </div>
+        <div id="showDefaulters">
+            <button id="defaulterButton">Show Overall Defaulters</button>
+        </div>
     </div>
-    <div class="listOfTenants">
+    <div id="listOfTenants" class="listOfTenants" style="display: block;">
 
         <tr th:each="ps : ${paymentStatuses}">
             <td th:text="${ps.tenantName}"></td>
@@ -44,42 +47,66 @@
                     <input type="submit" value="Edit">
                 </form>
             </td>
+        </tr>
+    </div>
+    <div id="listOfDefaulters" style="display: none;">
+
+        <tr th:each="defaulter : ${overallDefaulters}">
+            <td th:text="${defaulter.tenantName}"></td>
+            <td th:text="${defaulter.houseID}"></td>
+            <td th:text="${defaulter.flatNo}"></td>
+            <td th:text="${defaulter.rentAmount}"></td>
+            <td th:text="${defaulter.phoneNo}"></td>
+            <td th:text="${defaulter.overallOutstandingAmount}"></td>
             <br>
         </tr>
 
-        <!-- <tr th:each="tenant : ${house0Tenants}">
-            <td th:text="${tenant.tenantName}"></td>
-            <td th:text="${tenant.houseID}"></td>
-            <td th:text="${tenant.flatNo}"></td>
-            <td th:text="${tenant.rentAmount}"></td>
-            <td th:text="${tenant.phoneNo}"></td>
-        </tr>
-        
-        <br>
-
-        <tr th:each="tenant : ${house1Tenants}">
-            <td th:text="${tenant.tenantName}"></td>
-            <td th:text="${tenant.houseID}"></td>
-            <td th:text="${tenant.flatNo}"></td>
-            <td th:text="${tenant.rentAmount}"></td>
-            <td th:text="${tenant.phoneNo}"></td>
-        </tr>
-
-        <br>
-        
-        <tr th:each="tenant : ${house2Tenants}">
-            <td th:text="${tenant.tenantName}"></td>
-            <td th:text="${tenant.houseID}"></td>
-            <td th:text="${tenant.flatNo}"></td>
-            <td th:text="${tenant.rentAmount}"></td>
-            <td th:text="${tenant.phoneNo}"></td>
-        </tr> -->
-    </div>>
+    </div>
     <div id="logout">
         <form th:action="@{/logout}" method="post">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
             <input type="submit" value="Logout">
         </form>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function()
+            {
+                let flag = 0;
+            }
+        )
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function()
+            {
+                let flag = 0;
+
+                const tenantListContext = document.getElementById("listOfTenants");
+                const defaulterListContext = document.getElementById("listOfDefaulters");
+                const defaulterShowButtonContext = document.getElementById("showDefaulters");
+        
+                defaulterShowButtonContext.addEventListener("click",
+                    function()
+                    {
+                        if(flag === 0)
+                        {    
+                            tenantListContext.style.display = "none";
+                            defaulterListContext.style.display = "block";
+
+                            flag = 1;
+                        }
+                        else
+                        {
+                            tenantListContext.style.display = "block";
+                            defaulterListContext.style.display = "none";
+
+                            flag = 0;
+                        }
+                    }
+                )
+            }
+        )
+    </script>
 </body>
 </html>
