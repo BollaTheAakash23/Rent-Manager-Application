@@ -1,112 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
 <body>
-    <div class="utilityButtons">
-        <div class="addTenant">
-            <form action="/renderPage">
-                <input type="hidden" name="whatPage" value="addTenant">
-                <input type="submit" value="Add Tenant">
-            </form>
-        </div>
-        <div class="deleteTenant">
-            <form action="/renderPage">
-                <input type="hidden" name="whatPage" value="deleteTenant">
-                <input type="submit" value="Remove Tenant">
-            </form>
-        </div>
-        <div class="addPaymentEntry">
-            <form action="/renderPage">
-                <input type="hidden" name="whatPage" value="addPaymentEntry">
-                <input type="submit" value="Add Payment">
-            </form>
-        </div>
-        <div id="showDefaulters">
-            <button id="defaulterButton">Show Overall Defaulters</button>
-        </div>
-    </div>
-    <div id="listOfTenants" class="listOfTenants" style="display: block;">
 
-        <tr th:each="ps : ${paymentStatuses}">
-            <td th:text="${ps.tenantName}"></td>
-            <td th:text="${ps.flatNo}"></td>
-            <td th:text="${ps.rentAmount}"></td>
-            <td th:text="${ps.amountRemaining}"></td>
-            <td th:text="${ps.houseID}"></td>
-            <td th:text="${ps.phoneNo}"></td>
-            <td th:text="${ps.paymentStatus}"></td>
-            <td>
-                <form action="/renderPageTenantID">
-                    <input type="hidden" name="tenantID" th:value="${ps.tenantID}">
+<link rel="stylesheet" th:href="@{/css/login-enhanced.css}">
 
-                    <input type="hidden" name="whatPage" value="updateTenant">
-                    <input type="submit" value="Edit">
+<div class="login-container">
+    <div class="login-left">
+        <h2>Rent Manager</h2>
+        <p>> System Initialized...</p>
+        <p>> Welcome, User</p>
+        <p>> Select Module →</p>
+
+        <div class="utilityButtons">
+            <div class="addTenant">
+                <form action="/renderPage">
+                    <input type="hidden" name="whatPage" value="addTenant">
+                    <input type="submit" value="Add Tenant">
                 </form>
-            </td>
-        </tr>
+            </div>
+            <div class="deleteTenant">
+                <form action="/renderPage">
+                    <input type="hidden" name="whatPage" value="deleteTenant">
+                    <input type="submit" value="Remove Tenant">
+                </form>
+            </div>
+            <div class="addPaymentEntry">
+                <form action="/renderPage">
+                    <input type="hidden" name="whatPage" value="addPaymentEntry">
+                    <input type="submit" value="Add Payment">
+                </form>
+            </div>
+            <div id="showDefaulters">
+                <button class="defaulterButton" id="defaulterButton">Show Overall Defaulters</button>
+            </div>
+        </div>
     </div>
-    <div id="listOfDefaulters" style="display: none;">
+    <div class="login-right">
+        <div class="home-content">            
+            <div id="listOfTenants" class="listOfTenants" style="display: block;">
 
-        <tr th:each="defaulter : ${overallDefaulters}">
-            <td th:text="${defaulter.tenantName}"></td>
-            <td th:text="${defaulter.houseID}"></td>
-            <td th:text="${defaulter.flatNo}"></td>
-            <td th:text="${defaulter.rentAmount}"></td>
-            <td th:text="${defaulter.phoneNo}"></td>
-            <td th:text="${defaulter.overallOutstandingAmount}"></td>
-            <br>
-        </tr>
+                <table class="retro-table">
+                    <h2> Tenant Records</h2>
 
-    </div>
-    <div id="logout">
-        <form th:action="@{/logout}" method="post">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
-            <input type="submit" value="Logout">
-        </form>
-    </div>
-    <script>
-        document.addEventListener("DOMContentLoaded",
-            function()
-            {
-                let flag = 0;
-            }
-        )
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded",
-            function()
-            {
-                let flag = 0;
+                    <thead>
+                        <tr>
+                            <th>Tenant Name</th>
+                            <th>House ID</th>
+                            <th>Flat No.</th>
+                            <th>Rent Amount</th>
+                            <th>Amount Remaining</th>
+                            <th>Phone No.</th>
+                            <th>Payment Status</th>
+                        </tr>
+                    </thead>
 
-                const tenantListContext = document.getElementById("listOfTenants");
-                const defaulterListContext = document.getElementById("listOfDefaulters");
-                const defaulterShowButtonContext = document.getElementById("showDefaulters");
-        
-                defaulterShowButtonContext.addEventListener("click",
+                    <tbody>
+                        <tr th:each="ps : ${paymentStatuses}">
+                            <td th:text="${ps.tenantName}"></td>
+                            <td th:text="${ps.houseID}"></td>
+                            <td th:text="${ps.flatNo}"></td>
+                            <td th:text="${ps.rentAmount}"></td>
+                            <td th:text="${ps.amountRemaining}"></td>
+                            <td th:text="${ps.phoneNo}"></td>
+                            <td th:text="${ps.paymentStatus}"></td>
+                            <td>
+                                <form action="/renderPageTenantID">
+                                    <input type="hidden" name="tenantID" th:value="${ps.tenantID}">
+                
+                                    <input type="hidden" name="whatPage" value="updateTenant">
+                                    <input type="submit" value="Edit">
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="listOfDefaulters" style="display: none;">
+                <table class="retro-table">
+                    <h2> Tenant Records</h2>
+
+                    <thead>
+                        <tr>
+                            <th>Tenant Name</th>
+                            <th>House ID</th>
+                            <th>Flat No.</th>
+                            <th>Rent Amount</th>
+                            <th>Phone No.</th>
+                            <th>Outstanding Amount</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr th:each="defaulter : ${overallDefaulters}">
+                            <td th:text="${defaulter.tenantName}"></td>
+                            <td th:text="${defaulter.houseID}"></td>
+                            <td th:text="${defaulter.flatNo}"></td>
+                            <td th:text="${defaulter.rentAmount}"></td>
+                            <td th:text="${defaulter.phoneNo}"></td>
+                            <td th:text="${defaulter.overallOutstandingAmount}"></td>
+                            <br>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="logout">
+                <form th:action="@{/logout}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" >
+                    <input type="submit" value="Logout">
+                </form>
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded",
                     function()
                     {
-                        if(flag === 0)
-                        {    
-                            tenantListContext.style.display = "none";
-                            defaulterListContext.style.display = "block";
-
-                            flag = 1;
-                        }
-                        else
-                        {
-                            tenantListContext.style.display = "block";
-                            defaulterListContext.style.display = "none";
-
-                            flag = 0;
-                        }
+                        let flag = 0;
                     }
                 )
-            }
-        )
-    </script>
+            </script>
+            <script>
+                document.addEventListener("DOMContentLoaded",
+                    function()
+                    {
+                        let flag = 0;
+
+                        const tenantListContext = document.getElementById("listOfTenants");
+                        const defaulterListContext = document.getElementById("listOfDefaulters");
+                        const defaulterShowButtonContext = document.getElementById("defaulterButton");
+                
+                        defaulterShowButtonContext.addEventListener("click",
+                            function()
+                            {
+                                if(flag === 0)
+                                {    
+                                    tenantListContext.style.display = "none";
+                                    defaulterListContext.style.display = "block";
+
+                                    flag = 1;
+                                }
+                                else
+                                {
+                                    tenantListContext.style.display = "block";
+                                    defaulterListContext.style.display = "none";
+
+                                    flag = 0;
+                                }
+                            }
+                        )
+                    }
+                )
+            </script>
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
-</html>

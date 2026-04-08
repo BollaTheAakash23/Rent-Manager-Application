@@ -3,52 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <title>Delete Tenant</title>
+
+    <link rel="stylesheet" th:href="@{/css/login-enhanced.css}">
 </head>
 <body>
-    <form action="/home-action/remove-tenant" th:object="${tenant}">
-        <select id="houseSelect">
-            <option value="-1">-- Select House --</option>
-            <option value="0">Old House</option>
-            <option value="1">White House</option>
-            <option value="2">New House</option>
-        </select>
+    <div class="login-container">
+        <div class="login-left">
+            <h2>Rent Manager</h2>
+            <p>> Module: Delete Tenant</p>
+            <p>> Input required details</p>
+            <p>> Press submit to continue</p>
+        </div>
 
-        <select id="tenantSelect" th:field="*{tenantID}">
-            <option value="-1">-- Select Tenant --</option>
-        </select>
+        <div class="login-right">
+            <div class="form-container">
+                <h2>Delete Tenant</h2>
 
-        <!-- <select id="tenantSelect" th:field="*{tenantID}">
-            <option value="-1">--Select Tenant--</option>
-            <div id="allTenantss">
-                <option th:each="tenant : ${tenants}"
-                        th:value="${tenant.getTenantID()}"
-                        th:text="${tenant.getTenantName()}" id="allTenants" style="display: block;">
-                </option>
+                <form action="/home-action/remove-tenant" th:object="${tenant}">
+                    <select id="houseSelect">
+                        <option value="-1">-- Select House --</option>
+                        <option value="0">Old House</option>
+                        <option value="1">White House</option>
+                        <option value="2">New House</option>
+                    </select>
+            
+                    <select id="tenantSelect" th:field="*{tenantID}">
+                        <option value="-1">-- Select Tenant --</option>
+                    </select>
+            
+                    <!-- <select id="tenantSelect" th:field="*{tenantID}">
+                        <option value="-1">--Select Tenant--</option>
+                        <div id="allTenantss">
+                            <option th:each="tenant : ${tenants}"
+                                    th:value="${tenant.getTenantID()}"
+                                    th:text="${tenant.getTenantName()}" id="allTenants" style="display: block;">
+                            </option>
+                        </div>
+                        <div id="tenant0s" style="display: none;">
+                            <option th:each="tenant : ${house0Tenants}"
+                                    th:value="${tenant.getTenantID()}"
+                                    th:text="${tenant.getTenantName()}" id="tenant0" style="display: none;">
+                            </option>
+                        </div>
+                        <div id="tenant1s" style="display: none;">
+                            <option th:each="tenant : ${house1Tenants}"
+                                    th:value="${tenant.getTenantID()}"
+                                    th:text="${tenant.getTenantName()}" id="tenant1" style="display: none;">
+                            </option>
+                        </div>
+                        <div id="tenant2s" style="display: none;">
+                            <option th:each="tenant : ${house2Tenants}"
+                                    th:value="${tenant.getTenantID()}"
+                                    th:text="${tenant.getTenantName()}" id="tenant2" style="display: none;">
+                            </option>
+                        </div>
+                    </select> -->
+            
+                    
+                    <input type="submit" value="Remove Tenant">
+                </form>
             </div>
-            <div id="tenant0s" style="display: none;">
-                <option th:each="tenant : ${house0Tenants}"
-                        th:value="${tenant.getTenantID()}"
-                        th:text="${tenant.getTenantName()}" id="tenant0" style="display: none;">
-                </option>
-            </div>
-            <div id="tenant1s" style="display: none;">
-                <option th:each="tenant : ${house1Tenants}"
-                        th:value="${tenant.getTenantID()}"
-                        th:text="${tenant.getTenantName()}" id="tenant1" style="display: none;">
-                </option>
-            </div>
-            <div id="tenant2s" style="display: none;">
-                <option th:each="tenant : ${house2Tenants}"
-                        th:value="${tenant.getTenantID()}"
-                        th:text="${tenant.getTenantName()}" id="tenant2" style="display: none;">
-                </option>
-            </div>
-        </select> -->
+        </div>
 
-        
-        <input type="submit" value="Remove Tenant">
-        
-    </form>
+    </div>
+
 
     <script th:inline="javascript">
         const tenantsByHouseID = {

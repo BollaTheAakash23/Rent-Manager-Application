@@ -3,37 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Payment Entry</title>
+
+    <link rel="stylesheet" th:href="@{/css/login-enhanced.css}">
 </head>
 <body>
-    <form action="/home-action/add-payment-entry" th:object="${payment}">
+    <div class="login-container">
+        <div class="login-left">
+            <h2>Rent Manager</h2>
+            <p>> Module: Add Tenant</p>
+            <p>> Input required details</p>
+            <p>> Press submit to continue</p>
+        </div>
+        <div class="login-right">
+            <div class="form-container">
+                <h2>Add Payment Entry</h2>
 
-        <p th:text="'Thymeleaf working'"></p>
 
-        <select id="houseSelect">
-            <option value="-1">-- Select House --</option>
-            <option value="0">Old House</option>
-            <option value="1">White House</option>
-            <option value="2">New House</option>
-        </select>
-
-        <select name="tenantID" id="tenantSelect">
-            <option value="-1">-- Select Tenant--</option>
-        </select>
-
-        <label>Select Date : </label>
-        <input type="month" th:field="*{paymentDate}">
-
-        <label>Enter Amount Paid : </label>
-        <input id="amountPaid" type="number" th:field="*{amountPaid}">
-
-        <input id="paymentStatus" type="hidden" th:field="*{paymentStatus}">
-
-        <input id="amountRemaining" type="hidden" th:field="*{amountRemaining}">
-
-        <input type="submit"y
-         value="Add Payment">
-
-    </form>
+                <form action="/home-action/add-payment-entry" th:object="${payment}">
+            
+                    <p th:text="'Thymeleaf working'"></p>
+            
+                    <select id="houseSelect">
+                        <option value="-1">-- Select House --</option>
+                        <option value="0">Old House</option>
+                        <option value="1">White House</option>
+                        <option value="2">New House</option>
+                    </select>
+            
+                    <select name="tenantID" id="tenantSelect">
+                        <option value="-1">-- Select Tenant--</option>
+                    </select>
+            
+                    <label>Select Date : </label>
+                    <input type="month" th:field="*{paymentDate}">
+            
+                    <label>Enter Amount Paid : </label>
+                    <input id="amountPaid" type="number" th:field="*{amountPaid}">
+            
+                    <input id="paymentStatus" type="hidden" th:field="*{paymentStatus}">
+            
+                    <input id="amountRemaining" type="hidden" th:field="*{amountRemaining}">
+            
+                    <input type="submit"y
+                     value="Add Payment">
+            
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script>
         alert("JS Working");
