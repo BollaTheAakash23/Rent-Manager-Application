@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Payment Entry</title>
+
+    <link rel="stylesheet" th:href="@{/css/login-enhanced.css}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-left">
+            <h2>Rent Manager</h2>
+            <p>> Module: Add Defaulter</p>
+            <p>> Input required details</p>
+            <p>> Press submit to continue</p>
+        </div>
+        <div class="login-right">
+            <div class="form-container">
+                <h2>Add Payment Entry</h2>
+
+                <form action="/home-action/add-defaulter" th:object="${defaulter}">
+            
+                    <p th:text="'Thymeleaf working'"></p>
+            
+                    <select id="houseSelect">
+                        <option value="-1">-- Select House --</option>
+                        <option value="0">Old House</option>
+                        <option value="1">White House</option>
+                        <option value="2">New House</option>
+                    </select>
+            
+                    <select name="tenantID" id="tenantSelect" th:field="*{tenantID}">
+                        <option value="-1">-- Select Tenant--</option>
+                    </select>
+            
+                    <label>Select Date : </label>
+                    <input type="month" th:field="*{yearMonth}">
+
+                    <label>Enter Amount Remaining : </label>
+                    <input id="amountRemaining" type="number" th:field="*{amountRemaining}">
+            
+                    <input type="submit" value="Add Payment">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        alert("JS Working");
+    </script>
+
+    <script th:inline="javascript">
+        const tenantList = {
+            0 : /*[[${house0Tenants}]]*/,
+            1 : /*[[${house1Tenants}]]*/,
+            2 : /*[[${house2Tenants}]]*/ 
+        };
+        console.log("tenant list : ", tenantList);
+
+        alert("JS working");
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded",
+            function()
+            {
+                const houseSelectContext = document.getElementById("houseSelect");
+                const tenantSelectContext = document.getElementById("tenantSelect");
+
+
+                houseSelectContext.addEventListener("change",
+                    function()
+                    {
+                        const houseID = this.value;
+                        const tenantsOfSelectedHouse = tenantList[houseID];
+
+                        if(!tenantsOfSelectedHouse) return;
+
+                        window.alert(houseID);
+
+                        tenantSelectContext.innerHTML = '<option value="-1">-- Select Tenant --</option>';
+
+                        if(houseID === "-1") return;
+
+                        tenantsOfSelectedHouse.forEach(tenant =>
+                            {
+                                let option = document.createElement("option");
+                                option.value = tenant.tenantID;
+                                option.textContent = tenant.tenantName;
+                                tenantSelectContext.appendChild(option);     
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    </script>
+</body>
+</html>

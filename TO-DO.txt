@@ -1,2 +1,3 @@
-- Add display defaulters of current month.
 - Fix automatic adding of tenant payments when new month starts.
+- Add feature to view tenants month-wise.
+- Take a look at the updating tenants service in home controller.

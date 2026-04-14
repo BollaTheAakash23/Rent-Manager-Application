@@ -24,12 +24,18 @@ public class Tenant
     private Integer houseID; // 0 - old house | 1 - white house | 2 - new house
     private Integer flatNo;
     private Float rentAmount;
+    private Float advanceAmount;
+    private Float currentOutstandingAmount;
     private Float overallOutstandingAmount;
     private Long phoneNo;
 
     @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Payment> payments;
+
+    @OneToMany(mappedBy = "tenant", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Defaulter> defaults;
 
     public Tenant()
     {
@@ -38,17 +44,21 @@ public class Tenant
         houseID = 0;
         flatNo = 0;
         rentAmount = 0.0f;
+        advanceAmount = 0.0f;
+        currentOutstandingAmount = 0.0f;
         overallOutstandingAmount = 0.0f;
         phoneNo = Long.MIN_VALUE;
     }
 
-    public Tenant(int tenantID, String tenantName, int houseID, int flatNo, float rentAmount, float overallOutstandingAmount,long phoneNo)
+    public Tenant(int tenantID, String tenantName, int houseID, int flatNo, float rentAmount, float advanceAmount,float currentOutstandingAmount,float overallOutstandingAmount,long phoneNo)
     {
         this.tenantID = tenantID;
         this.tenantName = tenantName;
         this.houseID = houseID;
         this.flatNo = flatNo;
         this.rentAmount = rentAmount;
+        this.advanceAmount = advanceAmount;
+        this.currentOutstandingAmount = currentOutstandingAmount;
         this.overallOutstandingAmount = overallOutstandingAmount;
         this.phoneNo = phoneNo;
     }
@@ -103,6 +113,26 @@ public class Tenant
         this.rentAmount = rentAmount;
     }
 
+    // Advance Amount
+    public float getAdvanceAmount()
+    {
+        return advanceAmount;
+    }
+    public void setAdvanceAmount(float advanceAmount)
+    {
+        this.advanceAmount = advanceAmount;
+    }
+
+    // Current Outstanding Amount
+    public float getCurrentOutstandingAmount()
+    {
+        return currentOutstandingAmount;
+    }
+    public void setCurrentOutstandingAmount(float currentOutstandingAmount)
+    {
+        this.currentOutstandingAmount = currentOutstandingAmount;
+    }
+
     // Overall Outstanding Amount
     public float getOverallOutstandingAmount()
     {
@@ -131,5 +161,15 @@ public class Tenant
     public void setPayments(List<Payment> payments)
     {
         this.payments = payments;
-    } 
+    }
+
+    // Default list
+    public List<Defaulter> getDefaults()
+    {
+        return defaults;
+    }
+    public void setDefaults(List<Defaulter> defaults)
+    {
+        this.defaults = defaults;
+    }
 }

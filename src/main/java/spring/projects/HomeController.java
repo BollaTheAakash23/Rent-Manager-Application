@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import spring.projects.DTOs.PaymentDTO;
+import spring.projects.DTOs.DefaulterDTO;
 import spring.projects.DTOs.PaymentStatusDTO;
 import spring.projects.DTOs.TenantDTO;
+import spring.projects.Model.Defaulter;
 import spring.projects.Model.Payment;
 import spring.projects.Model.Tenant;
+import spring.projects.ModelAccess.DefaulterAccess;
 import spring.projects.ModelAccess.PaymentAccess;
 import spring.projects.ModelAccess.TenantAccess;
 
@@ -23,11 +25,13 @@ public class HomeController
 {
     private final TenantAccess tenantAccess;
     private final PaymentAccess paymentAccess;
+    private final DefaulterAccess defaulterAccess;
 
-    public HomeController(TenantAccess tenantAccess, PaymentAccess paymentAccess)
+    public HomeController(TenantAccess tenantAccess, PaymentAccess paymentAccess, DefaulterAccess defaulterAccess)
     {
         this.tenantAccess = tenantAccess;
         this.paymentAccess = paymentAccess;
+        this.defaulterAccess = defaulterAccess;
     }
 
     @RequestMapping("/home-action")
@@ -55,10 +59,12 @@ public class HomeController
 
         List<PaymentStatusDTO> paymentStatuses = paymentAccess.getPaymentStatuses(yearMonth);
         List<TenantDTO> overallDefaulters = tenantAccess.getOverallDefaulters();
+        List<TenantDTO> currentDefaulters = tenantAccess.getCurrentDefaulters();
         //List<PaymentStatusDTO> paymentStatuses = new ArrayList<>();
 
         model.addAttribute("paymentStatuses", paymentStatuses);
         model.addAttribute("overallDefaulters", overallDefaulters);
+        model.addAttribute("currentDefaulters", currentDefaulters);
     }
 
     // ADD CODE TO FIRST SEND A TENANT OBJECT THROUGH MODEL AND THEN ADD THE ATTRIBUTES IN ADD TENANT HTML
@@ -67,8 +73,6 @@ public class HomeController
     @RequestMapping("/home-action/add-tenant")
     public String addTenant(@ModelAttribute Tenant tenant, Model model)
     {
-        tenant.setOverallOutstandingAmount(tenant.getRentAmount());
-
         tenantAccess.addTenant(tenant);
 
         TenantDTO newTenant = tenantAccess.findTenantByHouseAndFlat(tenant.getHouseID(), tenant.getFlatNo());
@@ -113,20 +117,50 @@ public class HomeController
     public String addPaymentEntry(@ModelAttribute Payment payment, @RequestParam int tenantID, Model model)
     {
         Tenant tenant = tenantAccess.findTenantByTenantID(tenantID);
+        float currentOutstandingAmount = tenant.getCurrentOutstandingAmount();
+        float currentTransPaymentAmount = payment.getAmountPaid();
 
         tenant.setOverallOutstandingAmount(tenant.getOverallOutstandingAmount() - payment.getAmountPaid());
 
         payment.setTenant(tenant);
+        
+        if(currentTransPaymentAmount < currentOutstandingAmount)
+        {
+            currentOutstandingAmount -= currentTransPaymentAmount;
+            currentTransPaymentAmount = 0;
+        }
+        else
+        {
+            currentTransPaymentAmount -= currentOutstandingAmount;
+            currentOutstandingAmount = 0;
+        }
 
-        PaymentDTO paymentToBeUpdated = paymentAccess.getPaymentByTenant(tenant, YearMonth.now());
+        while(currentTransPaymentAmount > 0)
+        {
+            DefaulterDTO defaulterDTO = defaulterAccess.getEarliestDefaultByTenant(tenant);
+            Defaulter defaulter = defaulterAccess.getDefaulterByID(defaulterDTO.getDefaulterID());
 
-        float tenantRentAmountRemaining = paymentToBeUpdated.getAmountRemaining();
-        float amountRemainingAfterCurrTrans = tenantRentAmountRemaining - payment.getAmountPaid();
-        payment.setAmountRemaining(amountRemainingAfterCurrTrans);
+            if(defaulter == null) break;
 
-        if(amountRemainingAfterCurrTrans == 0.0f)
+            if(defaulter.getAmountRemaining() > currentTransPaymentAmount)
+            {
+                defaulter.setAmountRemaining(defaulter.getAmountRemaining() - currentTransPaymentAmount);
+                currentTransPaymentAmount = 0;
+            }
+            else
+            {
+                currentTransPaymentAmount -= defaulter.getAmountRemaining();
+                defaulter.setAmountRemaining(0);
+                defaulter.setPaymentStatus(1);
+            }
+            defaulterAccess.addOrUpdateDefaulter(defaulter);
+        }
+        payment.setAmountRemaining(currentOutstandingAmount);
+        tenant.setCurrentOutstandingAmount(currentOutstandingAmount);
+
+        if(currentOutstandingAmount == 0.0f)
             payment.setPaymentStatus(2);
-        else if(amountRemainingAfterCurrTrans < tenant.getRentAmount())
+        else if(currentOutstandingAmount < tenant.getRentAmount())
             payment.setPaymentStatus(1);
         else
             payment.setPaymentStatus(0);
@@ -134,6 +168,23 @@ public class HomeController
         payment.setPaymentTime(LocalTime.now());
 
         paymentAccess.addOrUpdatePayment(payment);
+
+        return "forward:/home-action";
+    }
+
+    @RequestMapping("/home-action/add-defaulter")
+    public String addDefaulter(@ModelAttribute DefaulterDTO defaulter)
+    {
+        Tenant tenant = tenantAccess.findTenantByTenantID(defaulter.getTenantID());
+
+        Defaulter newDefaulter = new Defaulter();
+
+        newDefaulter.setYearMonth(defaulter.getYearMonth());
+        newDefaulter.setAmountRemaining(defaulter.getAmountRemaining());
+        newDefaulter.setPaymentStatus(0);
+        newDefaulter.setTenant(tenant);
+
+        defaulterAccess.addOrUpdateDefaulter(newDefaulter);
 
         return "forward:/home-action";
     }
@@ -164,6 +215,8 @@ public class HomeController
 
         model.addAttribute("payment", new Payment());
 
+        model.addAttribute("defaulter", new DefaulterDTO());
+
         return whatPage;
     }
 
@@ -178,6 +231,3 @@ public class HomeController
     }
     
 }
-
-
-

@@ -21,6 +21,7 @@ public interface TenantRepository extends JpaRepository<Tenant, Integer>
             t.flatNo,
             t.rentAmount,
             t.phoneNo,
+            t.currentOutstandingAmount,
             t.overallOutstandingAmount
         )
         from Tenant t
@@ -36,10 +37,27 @@ public interface TenantRepository extends JpaRepository<Tenant, Integer>
                 t.flatNo,
                 t.rentAmount,
                 t.phoneNo,
+                t.currentOutstandingAmount,
                 t.overallOutstandingAmount
             )
             from Tenant t
             where t.overallOutstandingAmount <> 0
     """)
     List<TenantDTO> listOverallDefaulters();
+
+    @Query("""
+        select new spring.projects.DTOs.TenantDTO(
+            t.tenantID,
+            t.tenantName,
+            t.houseID,
+            t.flatNo,
+            t.rentAmount,
+            t.phoneNo,
+            t.currentOutstandingAmount,
+            t.overallOutstandingAmount
+        )
+        from Tenant t
+        where t.currentOutstandingAmount <> 0
+    """)
+    List<TenantDTO> listCurrentDefaulters();
 }

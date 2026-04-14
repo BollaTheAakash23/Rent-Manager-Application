@@ -57,4 +57,9 @@ public class TenantAccess
     {
         return tenantRepository.listOverallDefaulters();
     }
+
+    public List<TenantDTO> getCurrentDefaulters()
+    {
+        return tenantRepository.listCurrentDefaulters();
+    }
 }

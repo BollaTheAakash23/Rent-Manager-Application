@@ -28,6 +28,12 @@
                     <input type="submit" value="Add Payment">
                 </form>
             </div>
+            <div class="addDefaulter">
+                <form action="/renderPage">
+                    <input type="hidden" name="whatPage" value="addDefaulter">
+                    <input type="submit" value="Add Defaulter">
+                </form>
+            </div>
             <div id="showDefaulters">
                 <button class="defaulterButton" id="defaulterButton">Show Overall Defaulters</button>
             </div>
@@ -73,9 +79,9 @@
                     </tbody>
                 </table>
             </div>
-            <div id="listOfDefaulters" style="display: none;">
+            <div id="listOfOverallDefaulters" style="display: none;">
                 <table class="retro-table">
-                    <h2> Tenant Records</h2>
+                    <h2> Overall Defaulter Tenants</h2>
 
                     <thead>
                         <tr>
@@ -96,6 +102,34 @@
                             <td th:text="${defaulter.rentAmount}"></td>
                             <td th:text="${defaulter.phoneNo}"></td>
                             <td th:text="${defaulter.overallOutstandingAmount}"></td>
+                            <br>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="listOfCurrentDefaulters" style="display: none;">
+                <table class="retro-table">
+                    <h2> Current Defaulter Tenants</h2>
+
+                    <thead>
+                        <tr>
+                            <th>Tenant Name</th>
+                            <th>House ID</th>
+                            <th>Flat No.</th>
+                            <th>Rent Amount</th>
+                            <th>Phone No.</th>
+                            <th>Outstanding Amount</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr th:each="defaulter : ${currentDefaulters}">
+                            <td th:text="${defaulter.tenantName}"></td>
+                            <td th:text="${defaulter.houseID}"></td>
+                            <td th:text="${defaulter.flatNo}"></td>
+                            <td th:text="${defaulter.rentAmount}"></td>
+                            <td th:text="${defaulter.phoneNo}"></td>
+                            <td th:text="${defaulter.currentOutstandingAmount}"></td>
                             <br>
                         </tr>
                     </tbody>
@@ -122,7 +156,8 @@
                         let flag = 0;
 
                         const tenantListContext = document.getElementById("listOfTenants");
-                        const defaulterListContext = document.getElementById("listOfDefaulters");
+                        const overallDefaulterListContext = document.getElementById("listOfOverallDefaulters");
+                        const currentDefaulterListContext = document.getElementById("listOfCurrentDefaulters");
                         const defaulterShowButtonContext = document.getElementById("defaulterButton");
                 
                         defaulterShowButtonContext.addEventListener("click",
@@ -131,14 +166,21 @@
                                 if(flag === 0)
                                 {    
                                     tenantListContext.style.display = "none";
-                                    defaulterListContext.style.display = "block";
+                                    overallDefaulterListContext.style.display = "block";
 
                                     flag = 1;
                                 }
+                                else if(flag === 1)
+                                {
+                                    overallDefaulterListContext.style.display = "none";
+                                    currentDefaulterListContext.style.display = "block";
+
+                                    flag = 2;
+                                }
                                 else
                                 {
+                                    currentDefaulterListContext.style.display = "none";
                                     tenantListContext.style.display = "block";
-                                    defaulterListContext.style.display = "none";
 
                                     flag = 0;
                                 }
